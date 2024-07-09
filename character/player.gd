@@ -14,15 +14,24 @@ var direction : float = 0
 
 func _physics_process(delta):
 	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
 
+	var direction = Input.get_axis("ui_left", "ui_right")
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
-
-	velocity.x = move_toward(velocity.x, Input.get_axis("ui_left", "ui_right") * speed, speed)
+	if not is_on_floor():
+		animated_sprite.play("jump")
+		velocity.y += gravity * delta
 		
+	if(direction == 1 and is_on_floor()):
+		animated_sprite.flip_h = false
+		animated_sprite.play("run")
+	elif(direction == -1 and is_on_floor()):
+		animated_sprite.flip_h = true
+		animated_sprite.play("run")
+	elif(!direction and is_on_floor()):
+		animated_sprite.play("idle")
+	velocity.x = move_toward(velocity.x, direction * speed, speed)
 	move_and_slide()
 	
 func update_animation():
