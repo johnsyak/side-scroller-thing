@@ -19,18 +19,19 @@ func _physics_process(delta):
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
-	if not is_on_floor():
+
+	if(is_on_floor()):
+		if(direction == 1):
+			animated_sprite.flip_h = false
+			animated_sprite.play("run")
+		elif(direction == -1):
+			animated_sprite.flip_h = true
+			animated_sprite.play("run")
+		elif(!direction):
+			animated_sprite.play("idle")
+	else:
 		animated_sprite.play("jump")
 		velocity.y += gravity * delta
-		
-	if(direction == 1 and is_on_floor()):
-		animated_sprite.flip_h = false
-		animated_sprite.play("run")
-	elif(direction == -1 and is_on_floor()):
-		animated_sprite.flip_h = true
-		animated_sprite.play("run")
-	elif(!direction and is_on_floor()):
-		animated_sprite.play("idle")
 	velocity.x = move_toward(velocity.x, direction * speed, speed)
 	move_and_slide()
 	
