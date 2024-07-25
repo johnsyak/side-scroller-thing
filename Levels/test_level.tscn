@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsnvcabcmeqsm"]
+[gd_scene load_steps=8 format=3 uid="uid://dsnvcabcmeqsm"]
 
 [ext_resource type="Texture2D" uid="uid://dlkqjt1dyrp0i" path="res://Art/Assets/Tiles.png" id="1_hsler"]
+[ext_resource type="Script" path="res://Levels/test_level.gd" id="1_nm4ww"]
 [ext_resource type="PackedScene" uid="uid://dhoett7532n0w" path="res://character/player.tscn" id="2_mi2sp"]
+[ext_resource type="Script" path="res://Levels/CanvasLayer.gd" id="3_0gsvi"]
+[ext_resource type="Script" path="res://Levels/Pause.gd" id="5_jsah2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o7ic6"]
 texture = ExtResource("1_hsler")
@@ -1425,6 +1428,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_o7ic6")
 
 [node name="TestLevel" type="Node2D"]
+script = ExtResource("1_nm4ww")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_1lti1")
@@ -1440,3 +1444,13 @@ remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(138, 46)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("3_0gsvi")
+
+[node name="Pause" type="Node" parent="CanvasLayer"]
+script = ExtResource("5_jsah2")
+
+[connection signal="pause" from="CanvasLayer" to="." method="_on_canvas_layer_pause"]
+[connection signal="unpause" from="CanvasLayer" to="." method="_on_canvas_layer_unpause"]

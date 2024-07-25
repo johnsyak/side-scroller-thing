@@ -1,9 +1,26 @@
-[gd_scene load_steps=34 format=3 uid="uid://dhoett7532n0w"]
+[gd_scene load_steps=39 format=3 uid="uid://dhoett7532n0w"]
 
 [ext_resource type="Script" path="res://character/player.gd" id="1_dnay4"]
 [ext_resource type="Texture2D" uid="uid://daqak5ifdct8t" path="res://Art/Character/Idle/Idle-Sheet.png" id="2_ad4nt"]
+[ext_resource type="Texture2D" uid="uid://marcv4xn4b33" path="res://Art/Character/Attack-01/Attack-01-Sheet.png" id="2_xqyya"]
 [ext_resource type="Texture2D" uid="uid://0rj32x3ddw5i" path="res://Art/Character/Jumlp-All/Jump-All-Sheet.png" id="3_jwsxw"]
 [ext_resource type="Texture2D" uid="uid://ixx6njtk8d3n" path="res://Art/Character/Run/Run-Sheet.png" id="4_aw7xq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkm0g"]
+atlas = ExtResource("2_xqyya")
+region = Rect2(0, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2r7p"]
+atlas = ExtResource("2_xqyya")
+region = Rect2(96, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlefc"]
+atlas = ExtResource("2_xqyya")
+region = Rect2(192, 0, 96, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3om62"]
+atlas = ExtResource("2_xqyya")
+region = Rect2(288, 0, 96, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d8h4j"]
 atlas = ExtResource("2_ad4nt")
@@ -117,6 +134,23 @@ region = Rect2(560, 0, 80, 80)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_vkm0g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2r7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlefc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3om62")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_d8h4j")
 }, {
 "duration": 1.0,
@@ -219,12 +253,16 @@ height = 44.0
 script = ExtResource("1_dnay4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-45, -40)
+position = Vector2(-33, -45)
 sprite_frames = SubResource("SpriteFrames_dkxsx")
-animation = &"jump"
+animation = &"attack"
 centered = false
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_ho0av")
+
+[node name="GroundDetection" type="RayCast2D" parent="."]
+target_position = Vector2(0, 43)
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
